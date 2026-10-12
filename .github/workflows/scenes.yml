@@ -1,0 +1,53 @@
+# Renders the home and Our story scenes from tools/scenes into img/scenes
+# (WebP depth layers) and js/scene-data.js, then commits them.
+name: Build scenes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/scenes/**'
+      - '.github/workflows/scenes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-scenes
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Pillow, Playwright and Chromium
+        run: |
+          pip install pillow==12.3.0
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Render the scene layers
+        run: python3 tools/scenes/build_scenes.py . "$RUNNER_TEMP/scenes"
+
+      - name: Commit the rendered layers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add img/scenes js/scene-data.js
+          if git diff --cached --quiet; then
+            echo "Scene layers are already up to date."
+            exit 0
+          fi
+          git commit -m "Render scene layers"
+          git push
