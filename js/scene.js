@@ -109,16 +109,23 @@
   }
 
   // Crop the painting to the box like `object-fit: cover`, centred on data-focus (an x position in
-  // painting units), and line the overlays up with the same crop. data-focus-wide, if set, is used
-  // instead on wider screens, where the text panel sits over the left of the picture.
+  // painting units), and line the overlays up with the same crop. On wider screens, where the
+  // hero panel sits over the left of the picture, data-tuck (also an x position) is placed just
+  // behind the panel's right edge instead, so the rest of the scene stands clear of it.
   function focus(el, d) {
     var art = d.art || [0, 0, 1200, 800], ax = art[0], ay = art[1], aw = art[2], ah = art[3];
     var box = el.querySelector('.scene-layer'), bw = box.clientWidth, bh = Math.max(1, box.clientHeight);
-    var wide = el.getAttribute('data-focus-wide');
-    var fx = +((wide && bw >= 760 ? wide : el.getAttribute('data-focus')) || ax + aw / 2), r = bw / bh, vx, vy, vw, vh;
+    var r = bw / bh, vx, vy, vw, vh;
     if (r < aw / ah) {
       vh = ah; vw = ah * r; vy = ay;
-      vx = Math.max(ax, Math.min(ax + aw - vw, fx - vw / 2));
+      var tuck = el.getAttribute('data-tuck'), panel = tuck && bw >= 760 && el.parentNode.querySelector('.hero-panel');
+      if (panel) {
+        var pr = panel.getBoundingClientRect(), br = box.getBoundingClientRect();
+        vx = +tuck + 30 - (pr.right - br.left) / br.width * vw;
+      } else {
+        vx = +(el.getAttribute('data-focus') || ax + aw / 2) - vw / 2;
+      }
+      vx = Math.max(ax, Math.min(ax + aw - vw, vx));
     } else {
       vw = aw; vh = aw / r; vx = ax;
       vy = el.getAttribute('data-align') === 'bottom' ? ay + ah - vh : ay + (ah - vh) / 2;
