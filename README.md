@@ -4,7 +4,7 @@ An online store for sacred Gangajal from five holy places along the Ganga — Ga
 
 **Live site:** https://rapid005.github.io/project-ganga/
 
-The site is plain HTML, CSS and JavaScript. There is no build step and no server: GitHub Pages serves the files as they are.
+The site is plain HTML, CSS and JavaScript, with no server: GitHub Pages serves the files as they are. The only build step is for the two scene pictures (see below), and GitHub runs it for you.
 
 ## What's included
 
@@ -36,6 +36,18 @@ Colours and fonts are defined at the top of `css/style.css`.
 ### Product images
 
 The bottle illustrations in `img/products/` are placeholders (the Hindi lettering on them is drawn as shapes, so it shows correctly on every device). To use real photos, add square images (about 800 × 800 px) to `img/products/` and change each product's `image` path in `js/products.js`.
+
+### Home and Our story scenes
+
+The sunrise at Gangotri (home page) and the pilgrim at the ghat (Our story) are drawn by code in `tools/scenes/`. They are rendered as separate depth layers in `img/scenes/`: sky, clouds, peaks, hills, foreground, mist and light. `js/scene.js` stacks the layers and makes them feel alive:
+
+- the layers move at different speeds as you move the mouse or scroll;
+- clouds and mist drift, birds fly across, the water sparkles;
+- diyas flicker, flags flutter and ripples spread from the kalash.
+
+There is also an optional **Hear the river** button. `js/ambience.js` plays flowing water, a distant temple bell and, at Gangotri, birdsong. Everything is synthesised in the browser, so there are no audio files, and nothing plays until the visitor taps the button. Visitors who prefer reduced motion see a still picture.
+
+To change a scene, edit `tools/scenes/landscape.py` (shared sky and mountains), `gangotri.py` or `ghat.py` and push. The **Build scenes** workflow in GitHub Actions renders new layers and commits them to `img/scenes/` within a few minutes.
 
 ### Website copy
 
