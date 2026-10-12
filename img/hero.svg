@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 520" width="600" height="520" role="img" aria-label="Sunrise over the ghats of the Ganga, with diyas floating on the river">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf4de"/><stop offset="1" stop-color="#f6c97f"/></linearGradient>
+  <linearGradient id="river" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f8aa3"/><stop offset="1" stop-color="#0b3f4c"/></linearGradient>
+  <radialGradient id="glow"><stop offset="0" stop-color="#ffd76a" stop-opacity=".95"/><stop offset="1" stop-color="#ffd76a" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="600" height="520" fill="url(#sky)"/>
+<circle cx="300" cy="262" r="190" fill="url(#glow)"/>
+<circle cx="300" cy="262" r="74" fill="#f1b434"/>
+<path d="M118 96q8-7 16 0q8-7 16 0M168 120q6-5 12 0q6-5 12 0M420 84q7-6 14 0q7-6 14 0" stroke="#0b3f4c" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".55"/>
+<path d="M0 300C80 262 160 282 240 266s160-18 230 2 90-10 130-18V360H0z" fill="#e2ad6a" opacity=".55"/>
+<g fill="#0f5161">
+  <rect x="0" y="270" width="200" height="72"/>
+  <path d="M26 272c0-38 12-62 26-82l3-14 3 14c14 20 26 44 26 82z"/>
+  <path d="M98 272c0-54 16-88 33-114l4-18 4 18c17 26 33 60 33 114z"/>
+  <path d="M135 140v-22" stroke="#0f5161" stroke-width="2.5"/>
+  <path d="M135 118l20 6-20 6z" fill="#d9742b"/>
+  <rect x="404" y="282" width="196" height="60"/>
+  <path d="M420 284a32 32 0 0 1 64 0z"/>
+  <rect x="424" y="284" width="6" height="20"/><rect x="474" y="284" width="6" height="20"/>
+  <path d="M512 284c0-46 14-72 29-94l3-15 3 15c15 22 29 48 29 94z"/>
+</g>
+<g fill="#f6cf8a" opacity=".9">
+  <rect x="16" y="300" width="10" height="14" rx="2"/><rect x="44" y="300" width="10" height="14" rx="2"/>
+  <rect x="160" y="296" width="10" height="14" rx="2"/><rect x="430" y="310" width="10" height="14" rx="2"/>
+  <rect x="560" y="306" width="10" height="14" rx="2"/>
+</g>
+<rect x="0" y="336" width="600" height="9" fill="#c98f4f"/>
+<rect x="0" y="345" width="600" height="8" fill="#b37a40"/>
+<rect x="0" y="353" width="600" height="7" fill="#9c6833"/>
+<rect x="0" y="360" width="600" height="160" fill="url(#river)"/>
+<g fill="#f6cf8a" opacity=".75">
+  <ellipse cx="300" cy="378" rx="64" ry="4"/><ellipse cx="300" cy="396" rx="46" ry="3.5"/>
+  <ellipse cx="300" cy="414" rx="30" ry="3"/><ellipse cx="300" cy="432" rx="18" ry="2.5"/>
+</g>
+<g stroke="#8fd0dd" stroke-width="2" fill="none" stroke-linecap="round" opacity=".45">
+  <path d="M40 398q20-8 40 0t40 0"/><path d="M420 410q20-8 40 0t40 0"/>
+  <path d="M120 470q20-8 40 0t40 0"/><path d="M380 486q20-8 40 0t40 0"/>
+  <path d="M500 452q16-7 32 0t32 0"/>
+</g>
+<g transform="translate(150 448) scale(1.0)">
+  <circle cx="0" cy="-8" r="16" fill="#ffd76a" opacity=".28"/>
+  <path d="M-15 0q15 13 30 0z" fill="#c0621f"/>
+  <path d="M-15 0h30" stroke="#8f4515" stroke-width="2"/>
+  <path d="M0-3c-5-6-2-12 0-17c2 5 5 11 0 17z" fill="#ffcf4d"/>
+</g><g transform="translate(430 468) scale(1.1)">
+  <circle cx="0" cy="-8" r="16" fill="#ffd76a" opacity=".28"/>
+  <path d="M-15 0q15 13 30 0z" fill="#c0621f"/>
+  <path d="M-15 0h30" stroke="#8f4515" stroke-width="2"/>
+  <path d="M0-3c-5-6-2-12 0-17c2 5 5 11 0 17z" fill="#ffcf4d"/>
+</g><g transform="translate(250 494) scale(0.9)">
+  <circle cx="0" cy="-8" r="16" fill="#ffd76a" opacity=".28"/>
+  <path d="M-15 0q15 13 30 0z" fill="#c0621f"/>
+  <path d="M-15 0h30" stroke="#8f4515" stroke-width="2"/>
+  <path d="M0-3c-5-6-2-12 0-17c2 5 5 11 0 17z" fill="#ffcf4d"/>
+</g><g transform="translate(520 424) scale(0.8)">
+  <circle cx="0" cy="-8" r="16" fill="#ffd76a" opacity=".28"/>
+  <path d="M-15 0q15 13 30 0z" fill="#c0621f"/>
+  <path d="M-15 0h30" stroke="#8f4515" stroke-width="2"/>
+  <path d="M0-3c-5-6-2-12 0-17c2 5 5 11 0 17z" fill="#ffcf4d"/>
+</g><g transform="translate(70 486) scale(0.85)">
+  <circle cx="0" cy="-8" r="16" fill="#ffd76a" opacity=".28"/>
+  <path d="M-15 0q15 13 30 0z" fill="#c0621f"/>
+  <path d="M-15 0h30" stroke="#8f4515" stroke-width="2"/>
+  <path d="M0-3c-5-6-2-12 0-17c2 5 5 11 0 17z" fill="#ffcf4d"/>
+</g>
+</svg>

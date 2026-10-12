@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Pancha Tirtha gift set with five vials of Gangajal">
+<defs>
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#8fd0dd" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#2f8aa3" stop-opacity=".9"/>
+  </linearGradient>
+  <linearGradient id="cap" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#c8922f"/>
+    <stop offset=".5" stop-color="#f1c868"/>
+    <stop offset="1" stop-color="#b47f24"/>
+  </linearGradient>
+  <linearGradient id="copper" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#9a4f25"/>
+    <stop offset=".45" stop-color="#e09a5f"/>
+    <stop offset=".7" stop-color="#c8743c"/>
+    <stop offset="1" stop-color="#8a4420"/>
+  </linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#c48d55"/>
+    <stop offset="1" stop-color="#9a6a3a"/>
+  </linearGradient>
+  <linearGradient id="kraft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#d4a46c"/>
+    <stop offset="1" stop-color="#b9864f"/>
+  </linearGradient>
+  <clipPath id="bottle-clip"><path d="M182 96h36v34c0 16 48 22 48 60v126c0 14-11 24-25 24h-82c-14 0-25-10-25-24V190c0-38 48-44 48-60z"/></clipPath>
+</defs>
+<rect width="400" height="400" fill="#fdf2d6"/>
+<circle cx="200" cy="214" r="152" fill="#ffffff" opacity=".5"/>
+<path d="M0 352c40-10 80 10 120 0s80-10 120 0 80 10 120 0 40-6 40-6V400H0z" fill="#0f5161" opacity=".06"/>
+<ellipse cx="200" cy="334" rx="140" ry="10" fill="#082e37" opacity=".14"/>
+<path d="M66 276h268l-10 46a8 8 0 0 1-8 6H84a8 8 0 0 1-8-6z" fill="url(#wood)"/>
+<rect x="60" y="270" width="280" height="14" rx="4" fill="#d29c62"/>
+<g transform="translate(104 0)">
+  <rect x="-13" y="132" width="26" height="20" rx="4" fill="url(#cap)"/>
+  <path d="M-21 152h42v118a16 16 0 0 1-16 16h-10a16 16 0 0 1-16-16z" fill="#ffffff" fill-opacity=".65" stroke="#0b3f4c" stroke-opacity=".25" stroke-width="1.6"/>
+  <path d="M-18 184c6-3 12 3 18 0s12-3 18 0v86a13 13 0 0 1-13 13h-10a13 13 0 0 1-13-13z" fill="url(#water)"/>
+  <rect x="-21" y="214" width="42" height="34" fill="#fffaf0" stroke="#3b7ea1" stroke-width="1.6"/>
+  <text x="0" y="237" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#3b7ea1">G</text>
+  <path d="M-14 160v104" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+</g><g transform="translate(152 0)">
+  <rect x="-13" y="132" width="26" height="20" rx="4" fill="url(#cap)"/>
+  <path d="M-21 152h42v118a16 16 0 0 1-16 16h-10a16 16 0 0 1-16-16z" fill="#ffffff" fill-opacity=".65" stroke="#0b3f4c" stroke-opacity=".25" stroke-width="1.6"/>
+  <path d="M-18 184c6-3 12 3 18 0s12-3 18 0v86a13 13 0 0 1-13 13h-10a13 13 0 0 1-13-13z" fill="url(#water)"/>
+  <rect x="-21" y="214" width="42" height="34" fill="#fffaf0" stroke="#2f7a5d" stroke-width="1.6"/>
+  <text x="0" y="237" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#2f7a5d">R</text>
+  <path d="M-14 160v104" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+</g><g transform="translate(200 0)">
+  <rect x="-13" y="132" width="26" height="20" rx="4" fill="url(#cap)"/>
+  <path d="M-21 152h42v118a16 16 0 0 1-16 16h-10a16 16 0 0 1-16-16z" fill="#ffffff" fill-opacity=".65" stroke="#0b3f4c" stroke-opacity=".25" stroke-width="1.6"/>
+  <path d="M-18 184c6-3 12 3 18 0s12-3 18 0v86a13 13 0 0 1-13 13h-10a13 13 0 0 1-13-13z" fill="url(#water)"/>
+  <rect x="-21" y="214" width="42" height="34" fill="#fffaf0" stroke="#c0621f" stroke-width="1.6"/>
+  <text x="0" y="237" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#c0621f">H</text>
+  <path d="M-14 160v104" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+</g><g transform="translate(248 0)">
+  <rect x="-13" y="132" width="26" height="20" rx="4" fill="url(#cap)"/>
+  <path d="M-21 152h42v118a16 16 0 0 1-16 16h-10a16 16 0 0 1-16-16z" fill="#ffffff" fill-opacity=".65" stroke="#0b3f4c" stroke-opacity=".25" stroke-width="1.6"/>
+  <path d="M-18 184c6-3 12 3 18 0s12-3 18 0v86a13 13 0 0 1-13 13h-10a13 13 0 0 1-13-13z" fill="url(#water)"/>
+  <rect x="-21" y="214" width="42" height="34" fill="#fffaf0" stroke="#5d4e9e" stroke-width="1.6"/>
+  <text x="0" y="237" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#5d4e9e">P</text>
+  <path d="M-14 160v104" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+</g><g transform="translate(296 0)">
+  <rect x="-13" y="132" width="26" height="20" rx="4" fill="url(#cap)"/>
+  <path d="M-21 152h42v118a16 16 0 0 1-16 16h-10a16 16 0 0 1-16-16z" fill="#ffffff" fill-opacity=".65" stroke="#0b3f4c" stroke-opacity=".25" stroke-width="1.6"/>
+  <path d="M-18 184c6-3 12 3 18 0s12-3 18 0v86a13 13 0 0 1-13 13h-10a13 13 0 0 1-13-13z" fill="url(#water)"/>
+  <rect x="-21" y="214" width="42" height="34" fill="#fffaf0" stroke="#a8492a" stroke-width="1.6"/>
+  <text x="0" y="237" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#a8492a">K</text>
+  <path d="M-14 160v104" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+</g>
+<rect x="60" y="282" width="280" height="40" rx="0" fill="none"/>
+<text x="200" y="312" text-anchor="middle" font-family="Georgia, serif" font-size="13" textLength="150" lengthAdjust="spacingAndGlyphs" fill="#fbf1e0">PANCHA TIRTHA</text>
+<text x="200" y="104" text-anchor="middle" font-family="Georgia, serif" font-size="12" textLength="190" lengthAdjust="spacingAndGlyphs" fill="#0b3f4c" opacity=".7">FIVE SACRED SOURCES</text>
+</svg>

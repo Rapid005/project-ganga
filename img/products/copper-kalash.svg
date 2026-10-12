@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Copper kalash with mango leaves, filled with Gangajal">
+<defs>
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#8fd0dd" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#2f8aa3" stop-opacity=".9"/>
+  </linearGradient>
+  <linearGradient id="cap" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#c8922f"/>
+    <stop offset=".5" stop-color="#f1c868"/>
+    <stop offset="1" stop-color="#b47f24"/>
+  </linearGradient>
+  <linearGradient id="copper" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#9a4f25"/>
+    <stop offset=".45" stop-color="#e09a5f"/>
+    <stop offset=".7" stop-color="#c8743c"/>
+    <stop offset="1" stop-color="#8a4420"/>
+  </linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#c48d55"/>
+    <stop offset="1" stop-color="#9a6a3a"/>
+  </linearGradient>
+  <linearGradient id="kraft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#d4a46c"/>
+    <stop offset="1" stop-color="#b9864f"/>
+  </linearGradient>
+  <clipPath id="bottle-clip"><path d="M182 96h36v34c0 16 48 22 48 60v126c0 14-11 24-25 24h-82c-14 0-25-10-25-24V190c0-38 48-44 48-60z"/></clipPath>
+</defs>
+<rect width="400" height="400" fill="#f8eadf"/>
+<circle cx="200" cy="214" r="152" fill="#ffffff" opacity=".5"/>
+<path d="M0 352c40-10 80 10 120 0s80-10 120 0 80 10 120 0 40-6 40-6V400H0z" fill="#0f5161" opacity=".06"/>
+<ellipse cx="200" cy="348" rx="96" ry="10" fill="#082e37" opacity=".16"/>
+<ellipse cx="200" cy="104" rx="11" ry="40" fill="#4f8a3c" transform="rotate(-62 200 150)"/><ellipse cx="200" cy="104" rx="11" ry="40" fill="#5f9d48" transform="rotate(-32 200 150)"/><ellipse cx="200" cy="104" rx="11" ry="40" fill="#4a8436" transform="rotate(0 200 150)"/><ellipse cx="200" cy="104" rx="11" ry="40" fill="#5f9d48" transform="rotate(32 200 150)"/><ellipse cx="200" cy="104" rx="11" ry="40" fill="#4f8a3c" transform="rotate(62 200 150)"/><path d="M200 70v74" stroke="#2f5e24" stroke-opacity=".5" stroke-width="1.4" transform="rotate(-62 200 150)"/><path d="M200 70v74" stroke="#2f5e24" stroke-opacity=".5" stroke-width="1.4" transform="rotate(-32 200 150)"/><path d="M200 70v74" stroke="#2f5e24" stroke-opacity=".5" stroke-width="1.4" transform="rotate(0 200 150)"/><path d="M200 70v74" stroke="#2f5e24" stroke-opacity=".5" stroke-width="1.4" transform="rotate(32 200 150)"/><path d="M200 70v74" stroke="#2f5e24" stroke-opacity=".5" stroke-width="1.4" transform="rotate(62 200 150)"/>
+<path d="M160 150h80v12c0 10-10 14-10 22c40 14 64 46 64 84c0 46-44 76-94 76s-94-30-94-76c0-38 24-70 64-84c0-8-10-12-10-22z" fill="url(#copper)"/>
+<ellipse cx="200" cy="151" rx="46" ry="9" fill="#7c3d1c"/>
+<ellipse cx="200" cy="149" rx="40" ry="6" fill="#b4642f"/>
+<path d="M118 232c54 22 110 22 164 0" stroke="#f3c98e" stroke-width="3" fill="none" opacity=".85"/>
+<path d="M112 300c58 22 118 22 176 0" stroke="#f3c98e" stroke-width="3" fill="none" opacity=".85"/>
+<text x="200" y="285" text-anchor="middle" font-family="'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', serif" font-size="44" fill="#fbe1b6">ॐ</text>
+<path d="M136 240c-10 30-6 56 10 78" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity=".25" fill="none"/>
+</svg>

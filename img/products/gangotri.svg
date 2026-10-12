@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Gangotri Gangajal bottle">
+<defs>
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#8fd0dd" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#2f8aa3" stop-opacity=".9"/>
+  </linearGradient>
+  <linearGradient id="cap" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#c8922f"/>
+    <stop offset=".5" stop-color="#f1c868"/>
+    <stop offset="1" stop-color="#b47f24"/>
+  </linearGradient>
+  <linearGradient id="copper" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#9a4f25"/>
+    <stop offset=".45" stop-color="#e09a5f"/>
+    <stop offset=".7" stop-color="#c8743c"/>
+    <stop offset="1" stop-color="#8a4420"/>
+  </linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#c48d55"/>
+    <stop offset="1" stop-color="#9a6a3a"/>
+  </linearGradient>
+  <linearGradient id="kraft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#d4a46c"/>
+    <stop offset="1" stop-color="#b9864f"/>
+  </linearGradient>
+  <clipPath id="bottle-clip"><path d="M182 96h36v34c0 16 48 22 48 60v126c0 14-11 24-25 24h-82c-14 0-25-10-25-24V190c0-38 48-44 48-60z"/></clipPath>
+</defs>
+<rect width="400" height="400" fill="#e6f1f5"/>
+<circle cx="200" cy="214" r="152" fill="#ffffff" opacity=".5"/>
+<path d="M0 352c40-10 80 10 120 0s80-10 120 0 80 10 120 0 40-6 40-6V400H0z" fill="#0f5161" opacity=".06"/>
+<g>
+  <ellipse cx="200" cy="342" rx="74" ry="9" fill="#082e37" opacity=".14"/>
+  <path d="M182 96h36v34c0 16 48 22 48 60v126c0 14-11 24-25 24h-82c-14 0-25-10-25-24V190c0-38 48-44 48-60z" fill="#ffffff" fill-opacity=".6"/>
+  <g clip-path="url(#bottle-clip)">
+    <path d="M110 172c22-9 44 9 66 0s44-9 66 0 44 9 66 0V360H110z" fill="url(#water)"/>
+  </g>
+  <path d="M182 96h36v34c0 16 48 22 48 60v126c0 14-11 24-25 24h-82c-14 0-25-10-25-24V190c0-38 48-44 48-60z" fill="none" stroke="#0b3f4c" stroke-opacity=".28" stroke-width="2"/>
+  <rect x="175" y="68" width="50" height="32" rx="5" fill="url(#cap)"/>
+  <rect x="171" y="96" width="58" height="9" rx="3" fill="#a87420"/>
+  <path d="M182 74v20M191 74v20M200 74v20M209 74v20M218 74v20" stroke="#8f6418" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M147 198c-6 30-6 80 0 110" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity=".6" fill="none"/>
+  <rect x="150" y="212" width="100" height="90" rx="8" fill="#fffaf0" stroke="#3b7ea1" stroke-width="2"/>
+  <path d="M200 224c-6 8-10 13-10 18a10 10 0 0 0 20 0c0-5-4-10-10-18z" fill="#3b7ea1"/>
+  <text x="200" y="268" text-anchor="middle" font-family="Georgia, serif" font-size="10" textLength="80" lengthAdjust="spacingAndGlyphs" fill="#1d2a2e">THE HOLY DROP</text>
+  <line x1="168" y1="276" x2="232" y2="276" stroke="#3b7ea1" stroke-opacity=".5"/>
+  <text x="200" y="291" text-anchor="middle" font-family="Georgia, serif" font-size="12.5" font-style="italic" fill="#3b7ea1">Gangotri</text>
+</g>
+</svg>
