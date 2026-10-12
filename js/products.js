@@ -8,14 +8,24 @@ window.HD = window.HD || {};
 
 HD.config = {
   storeName: 'The Holy Drop',
-  // While true, a banner says this is a demo and checkout takes no payment.
+  // While true, checkout says it is a demo and takes no payment.
+  // Turn off only once real payments are connected.
   demoMode: true,
+  // Messages that rotate in the bar at the top of every page. Empty list hides the bar.
+  announcements: [
+    { text: 'Navratri Special: 10% off with code', code: 'NAVRATRI10', href: 'shop.html' },
+    { text: 'Free shipping on all orders over ₹999', href: 'shop.html' },
+    { text: 'Festive gifting: the Pancha Tirtha gift box', href: 'product.html?id=pancha-tirtha-set' }
+  ],
+  // Coupon suggested in the cart. Must be one of the codes below.
+  featuredCoupon: 'NAVRATRI10',
   freeShippingThreshold: 999,
   shippingFee: 79,
   // Leave empty to hide from the Contact page.
   contactEmail: '',
   contactPhone: '',
   coupons: {
+    NAVRATRI10: { type: 'percent', value: 10, label: '10% off your order' },
     HOLYDROP10: { type: 'percent', value: 10, label: '10% off your order' },
     PUJA100: { type: 'flat', value: 100, min: 999, label: '₹100 off orders above ₹999' }
   }
@@ -132,10 +142,10 @@ HD.products = [
     badge: 'Gift',
     tint: '#fdf2d6',
     image: 'img/products/pancha-tirtha.svg',
-    short: 'Five 50 ml vials — one from each sacred source — on a wooden tray.',
+    short: 'Five 50 ml vials — one from each sacred source — in a velvet-lined wooden box.',
     description: [
       'A journey down the Ganga in a single gift: Gangotri, Rishikesh, Haridwar, Prayagraj and Kashi, each in its own labelled vial.',
-      'Presented on a wooden tray in a gift box with a card describing each tirtha. A thoughtful gift for griha pravesh, weddings and festivals.'
+      'Presented in a velvet-lined wooden keepsake box with a card describing each tirtha. A thoughtful gift for griha pravesh, weddings and festivals.'
     ],
     variants: [
       { size: '5 × 50 ml', price: 799, mrp: 999 }
@@ -194,7 +204,8 @@ HD.products = [
     short: 'A hand-beaten copper kalash, filled with 250 ml of Haridwar Gangajal and sealed.',
     description: [
       'A traditional copper kalash, hand-beaten by artisans, sealed with 250 ml of Gangajal from Har Ki Pauri.',
-      'Ready to place on your altar or to give as a gift for griha pravesh, Diwali or a wedding. The kalash can be reused for puja for years.'
+      'Ready to place on your altar or to give as a gift for griha pravesh, Diwali or a wedding. The kalash can be reused for puja for years.',
+      'Shown dressed as a purna kalash; the mango leaves and coconut are not included.'
     ],
     variants: [
       { size: '250 ml', price: 1199, mrp: 1499 }

@@ -28,6 +28,13 @@
     '</div>';
   }
 
+  function couponHint() {
+    var code = HD.config.featuredCoupon;
+    var coupon = code && HD.config.coupons[code];
+    if (!coupon) return '';
+    return '<p class="coupon-hint">Festive offer: use <code>' + esc(code) + '</code> for ' + esc(coupon.label) + '.</p>';
+  }
+
   function couponBlock(t) {
     var code = HD.cart.couponCode();
     if (code) {
@@ -42,7 +49,7 @@
         '<button class="btn btn-secondary btn-sm" type="submit">Apply</button>' +
       '</form>' +
       '<p class="coupon-msg ' + (couponMessage && couponMessage.ok ? 'ok' : 'err') + '" aria-live="polite">' + (couponMessage ? esc(couponMessage.text) : '') + '</p>' +
-      (HD.config.demoMode ? '<p class="coupon-hint">Try <code>HOLYDROP10</code> for 10% off.</p>' : '');
+      couponHint();
   }
 
   function render() {

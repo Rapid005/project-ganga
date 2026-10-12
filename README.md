@@ -26,15 +26,16 @@ Almost everything lives in **`js/products.js`**:
 
 - **Products and prices** — edit the `HD.products` list. Each product has sizes (`variants`) with a `price` and an `mrp` (shown struck through).
 - **Shipping** — `freeShippingThreshold` (₹999) and `shippingFee` (₹79).
-- **Coupons** — `HOLYDROP10` (10% off) and `PUJA100` (₹100 off above ₹999). Add or remove codes in `coupons`.
+- **Offers bar** — the rotating messages at the top of every page live in `announcements`. Change them for each festival or sale, or empty the list to hide the bar.
+- **Coupons** — `NAVRATRI10` and `HOLYDROP10` (10% off) and `PUJA100` (₹100 off above ₹999). Add or remove codes in `coupons`; `featuredCoupon` is the code suggested in the cart.
 - **Contact details** — set `contactEmail` and `contactPhone` to show them on the Contact page.
-- **Demo mode** — while `demoMode` is `true`, a banner says the store is a demo and checkout takes no payment.
+- **Demo mode** — while `demoMode` is `true`, the checkout and order pages say the store is a demo and no payment is taken. Turn it off only once real payments are connected.
 
 Colours and fonts are defined at the top of `css/style.css`.
 
 ### Product images
 
-The bottle illustrations in `img/products/` are placeholders. To use real photos, add square images (about 800 × 800 px) to `img/products/` and change each product's `image` path in `js/products.js`.
+The bottle illustrations in `img/products/` are placeholders (the Hindi lettering on them is drawn as shapes, so it shows correctly on every device). To use real photos, add square images (about 800 × 800 px) to `img/products/` and change each product's `image` path in `js/products.js`.
 
 ### Website copy
 

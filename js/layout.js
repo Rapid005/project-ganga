@@ -25,6 +25,46 @@
     { href: 'contact.html', label: 'Contact', page: 'contact' }
   ];
 
+  var DIYA = '<svg class="announce-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">' +
+    '<path d="M12 3c-2.2 2.6-2.6 4.6-1.4 6.2.5.7 2.3.7 2.8 0C14.6 7.6 14.2 5.6 12 3z" fill="#ffcf4d"/>' +
+    '<path d="M3 13h18c-1 4.4-4.6 7-9 7s-8-2.6-9-7z" fill="#f1b434"/><path d="M3 13h18" stroke="#fdf2d6" stroke-width="1.2"/></svg>';
+
+  function renderAnnouncements() {
+    var items = HD.config.announcements || [];
+    if (!items.length) return '';
+    return '<div class="announce" role="region" aria-label="Offers"><div class="container announce-inner">' +
+      items.map(function (a, i) {
+        return '<a class="announce-item' + (i === 0 ? ' is-active' : '') + '" href="' + esc(a.href || 'shop.html') + '"' +
+          (i === 0 ? '' : ' aria-hidden="true" tabindex="-1"') + '>' + DIYA +
+          '<span>' + esc(a.text) + (a.code ? ' <strong class="announce-code">' + esc(a.code) + '</strong>' : '') + '</span></a>';
+      }).join('') +
+    '</div></div>';
+  }
+
+  // Rotate the offers every few seconds; pause while hovered or focused.
+  function startAnnouncements() {
+    var items = document.querySelectorAll('.announce-item');
+    if (items.length < 2) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var bar = document.querySelector('.announce');
+    var current = 0;
+    var paused = false;
+    bar.addEventListener('mouseenter', function () { paused = true; });
+    bar.addEventListener('mouseleave', function () { paused = false; });
+    bar.addEventListener('focusin', function () { paused = true; });
+    bar.addEventListener('focusout', function () { paused = false; });
+    setInterval(function () {
+      if (paused) return;
+      items[current].classList.remove('is-active');
+      items[current].setAttribute('aria-hidden', 'true');
+      items[current].setAttribute('tabindex', '-1');
+      current = (current + 1) % items.length;
+      items[current].classList.add('is-active');
+      items[current].removeAttribute('aria-hidden');
+      items[current].removeAttribute('tabindex');
+    }, 4500);
+  }
+
   function renderHeader() {
     var mount = document.getElementById('site-header');
     if (!mount) return;
@@ -35,9 +75,7 @@
 
     mount.outerHTML =
       '<a class="skip-link" href="#main">Skip to content</a>' +
-      (HD.config.demoMode
-        ? '<div class="demo-bar"><strong>Demo store</strong> — browse freely; orders are not processed and no payment is taken.</div>'
-        : '') +
+      renderAnnouncements() +
       '<header class="site-header">' +
         '<div class="container header-inner">' +
           '<a class="logo" href="index.html" aria-label="' + esc(HD.config.storeName) + ' — home">' + ICONS.logo + '<span>' + esc(HD.config.storeName) + '</span></a>' +
@@ -168,6 +206,7 @@
   });
 
   renderHeader();
+  startAnnouncements();
   renderFooter();
   updateCartCount(false);
   window.addEventListener('hd:cartchange', function () { updateCartCount(true); });
