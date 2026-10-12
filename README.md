@@ -39,13 +39,18 @@ The bottle illustrations in `img/products/` are placeholders (the Hindi letterin
 
 ### Home and Our story scenes
 
-The sunrise at Gangotri (home page) and the pilgrim at the ghat (Our story) are drawn by code in `tools/scenes/`. They are rendered as separate depth layers in `img/scenes/`: sky, clouds, peaks, hills, foreground, mist and light. `js/scene.js` stacks the layers and makes them feel alive:
+The sunrise at Gangotri (home page) and the pilgrim at the ghat (Our story) are wide panoramas drawn by code in `tools/scenes/`. They are rendered as separate depth layers in `img/scenes/`: sky, clouds, peaks, hills, foreground, mist and light. `js/scene.js` stacks the layers, crops the panorama to fit each screen, and makes it feel alive:
 
 - the layers move at different speeds as you move the mouse or scroll;
 - clouds and mist drift, birds fly across, the water sparkles;
 - diyas flicker, flags flutter and ripples spread from the kalash.
 
-There is also an optional **Hear the river** button. `js/ambience.js` plays flowing water, a distant temple bell and, at Gangotri, birdsong. Everything is synthesised in the browser, so there are no audio files, and nothing plays until the visitor taps the button. Visitors who prefer reduced motion see a still picture.
+Each scene also has an optional sound button, played by `js/ambience.js`:
+
+- **Hear the dawn** (home): a mountain breeze, the river far below, birdsong with a koel's call, and a temple bell down the valley.
+- **Hear the ghat** (Our story): water lapping at the steps, the glug of the kalash filling, the temple bell close by and the small aarti bell.
+
+Everything is synthesised in the browser, so there are no audio files, and nothing plays until the visitor taps the button. Visitors who prefer reduced motion see a still picture.
 
 To change a scene, edit `tools/scenes/landscape.py` (shared sky and mountains), `gangotri.py` or `ghat.py` and push. The **Build scenes** workflow in GitHub Actions renders new layers and commits them to `img/scenes/` within a few minutes.
 
