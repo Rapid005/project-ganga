@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop Gangajal — The Holy Drop</title>
+  <meta name="description" content="Shop Gangajal from Gangotri, Rishikesh, Haridwar, Prayagraj and Kashi, plus gift sets and bulk packs for temples and events.">
+  <meta name="theme-color" content="#0f5161">
+  <meta property="og:title" content="Shop Gangajal — The Holy Drop">
+  <meta property="og:description" content="Gangajal from five holy places, gift sets and bulk packs.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="shop">
+  <div id="site-header"></div>
+
+  <main id="main">
+    <div class="container">
+      <header class="page-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span>Shop</nav>
+        <h1>Shop Gangajal</h1>
+        <p>Sacred water from five holy places along the Ganga, gift sets and bulk packs — all sealed at the source.</p>
+      </header>
+
+      <div class="shop-toolbar">
+        <div class="chips" role="group" aria-label="Category" id="category-chips">
+          <button type="button" class="chip" data-category="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-category="gangajal" aria-pressed="false">Gangajal</button>
+          <button type="button" class="chip" data-category="gift" aria-pressed="false">Gift sets</button>
+          <button type="button" class="chip" data-category="bulk" aria-pressed="false">Bulk packs</button>
+        </div>
+        <div class="filter-row">
+          <div class="field">
+            <label for="filter-source">Source</label>
+            <select class="select" id="filter-source">
+              <option value="all">All sources</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-size">Size</label>
+            <select class="select" id="filter-size">
+              <option value="all">All sizes</option>
+              <option value="100 ml">100 ml</option>
+              <option value="250 ml">250 ml</option>
+              <option value="500 ml">500 ml</option>
+              <option value="1 L">1 L</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sort">Sort by</label>
+            <select class="select" id="sort">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+          </div>
+          <p class="result-count" id="result-count" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="product-grid" id="product-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div>
+        <h2>No products match</h2>
+        <p>Try a different source or size.</p>
+        <button type="button" class="btn btn-secondary" id="clear-filters">Clear filters</button>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <p class="ritual-note"><strong>For puja and ritual use only. Not for drinking.</strong></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

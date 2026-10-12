@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout — The Holy Drop</title>
+  <meta name="description" content="Complete your order.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0f5161">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="checkout">
+  <div id="site-header"></div>
+
+  <main id="main">
+    <div class="container">
+      <header class="page-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="cart.html">Cart</a><span aria-hidden="true">/</span>Checkout</nav>
+        <h1>Checkout</h1>
+      </header>
+
+      <div id="checkout-empty" hidden>
+        <div class="empty-state" style="margin-bottom:56px">
+          <h2>Your cart is empty</h2>
+          <p>Add something to your cart before checking out.</p>
+          <a class="btn btn-primary" href="shop.html">Start shopping</a>
+        </div>
+      </div>
+
+      <form class="checkout-layout" id="checkout-form" novalidate hidden>
+        <div>
+          <fieldset class="form-section">
+            <legend><h2>Contact</h2></legend>
+            <div class="form-grid">
+              <div class="field span-2">
+                <label for="name">Full name</label>
+                <input class="input" id="name" name="name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input class="input" id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="phone">Mobile number</label>
+                <input class="input" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend><h2>Delivery address</h2></legend>
+            <div class="form-grid">
+              <div class="field span-2">
+                <label for="address1">House / flat, street</label>
+                <input class="input" id="address1" name="address1" autocomplete="address-line1" required>
+              </div>
+              <div class="field span-2">
+                <label for="address2">Area, landmark <span class="optional">(optional)</span></label>
+                <input class="input" id="address2" name="address2" autocomplete="address-line2">
+              </div>
+              <div class="field">
+                <label for="city">City</label>
+                <input class="input" id="city" name="city" autocomplete="address-level2" required>
+              </div>
+              <div class="field">
+                <label for="pin">PIN code</label>
+                <input class="input" id="pin" name="pin" inputmode="numeric" autocomplete="postal-code" maxlength="6" required>
+              </div>
+              <div class="field span-2">
+                <label for="state">State / union territory</label>
+                <select class="select" id="state" name="state" autocomplete="address-level1" required>
+                  <option value="">Select…</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend><h2>Payment</h2></legend>
+            <div class="pay-options">
+              <label class="pay-option"><input type="radio" name="payment" value="UPI" checked><div><strong>UPI</strong><span>Google Pay, PhonePe, Paytm, BHIM</span></div></label>
+              <label class="pay-option"><input type="radio" name="payment" value="Card"><div><strong>Debit / credit card</strong><span>Visa, Mastercard, RuPay</span></div></label>
+              <label class="pay-option"><input type="radio" name="payment" value="Cash on delivery"><div><strong>Cash on delivery</strong><span>Pay when your order arrives</span></div></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="summary" aria-label="Order summary">
+          <h2>Your order</h2>
+          <div id="checkout-summary"></div>
+          <div class="notice notice-info" id="demo-notice" style="margin:16px 0 4px" hidden>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.01"/></svg>
+            <p><strong>Demo checkout.</strong> No payment will be taken and no order will be shipped.</p>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" id="place-order">Place order</button>
+          <p class="note" style="text-align:center;margin-top:12px">By placing your order you agree to our <a href="terms.html">terms of sale</a>.</p>
+        </aside>
+      </form>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/summary.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
