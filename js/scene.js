@@ -1,8 +1,9 @@
 /* The Holy Drop — immersive scenes.
    Builds a layered, gently moving picture inside any <div class="scene" data-scene="name">.
    Each depth layer is its own composited element, so the browser only moves finished
-   pictures around instead of repainting them. Layer files and overlay positions come
-   from js/scene-data.js; overlay positions are in the painting's own units. */
+   pictures around instead of repainting them. The finished still picture shows first, so
+   the scene appears at once; the layers load behind it and take over when they are ready.
+   Layer files and overlay positions come from js/scene-data.js, in the painting's own units. */
 (function () {
   'use strict';
 
@@ -17,7 +18,7 @@
   var FLAG = 'c18 4 30 12 40 22c-14 0-28-4-40-10z';
   var BIRD = 'M0 0q5 -5 10 0q5 -5 10 0';
   // small flocks crossing at different heights and speeds: [height, birds, size, seconds, delay]
-  var FLOCKS = [[250, 4, 1, 48, 0], [185, 3, 0.75, 62, -22], [300, 2, 0.85, 41, -30], [150, 1, 0.6, 75, -55], [215, 3, 0.65, 68, -10]];
+  var FLOCKS = [[250, 4, 1, 60, 0], [185, 3, 0.75, 78, -28], [300, 2, 0.85, 52, -38], [150, 1, 0.6, 94, -70], [215, 3, 0.65, 85, -12]];
   var V = [[0, 0], [24, 13], [46, -5], [-30, 18]];
 
   function rand(seed) {
@@ -38,7 +39,15 @@
         s += '</g></g>';
       });
     }
-    if (layer !== 'front') return s;
+    if (layer === 'front') s += frontOverlays(name, d, r);
+    if (!s) return '';
+    return '<svg class="scene-ov" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true" focusable="false">' +
+      (layer === 'front' ? '<defs><radialGradient id="scene-glow-' + name + '"><stop offset="0" stop-color="#ffe08a" stop-opacity=".95"/>' +
+      '<stop offset="1" stop-color="#ffb84a" stop-opacity="0"/></radialGradient></defs>' : '') + s + '</svg>';
+  }
+
+  function frontOverlays(name, d, r) {
+    var s = '';
     (d.sparkles || []).forEach(function (p) {
       var delay = (r() * 4).toFixed(2), z = 0.9 + r() * 1.3;
       s += '<path class="scene-sparkle" style="animation-delay:-' + delay + 's" transform="translate(' + p[0] + ' ' + p[1] + ') scale(' + z.toFixed(2) + ')" ' +
@@ -56,10 +65,7 @@
           '" rx="40" ry="6" fill="none" stroke="#fff" stroke-width="1.6"/>';
       }
     }
-    if (!s) return '';
-    return '<svg class="scene-ov" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true" focusable="false">' +
-      '<defs><radialGradient id="scene-glow-' + name + '"><stop offset="0" stop-color="#ffe08a" stop-opacity=".95"/>' +
-      '<stop offset="1" stop-color="#ffb84a" stop-opacity="0"/></radialGradient></defs>' + s + '</svg>';
+    return s;
   }
 
   function layerEl(depth, html) {
@@ -73,6 +79,22 @@
   function build(el) {
     var name = el.getAttribute('data-scene'), d = DATA[name];
     if (!d) return;
+    // the still picture first: one image, shown as soon as it arrives
+    var still = document.createElement('div');
+    still.className = 'scene-still';
+    still.innerHTML = '<img class="scene-img" src="' + d.flat + '" alt="" fetchpriority="high" draggable="false">';
+    el.insertBefore(still, el.firstChild);
+    var fit = function () { focus(el, d); };
+    fit();
+    window.addEventListener('resize', fit);
+    var im = still.firstChild;
+    if (im.complete) layers(el, d, name, still, fit);
+    else im.onload = im.onerror = function () { layers(el, d, name, still, fit); };
+    if (el.hasAttribute('data-sound') && window.HDAmbience) window.HDAmbience.button(el, el.getAttribute('data-sound'));
+  }
+
+  // then the moving layers, loaded behind the still picture
+  function layers(el, d, name, still, fit) {
     var stage = document.createElement('div');
     stage.className = 'scene-stage';
     stage.setAttribute('role', 'img');
@@ -84,11 +106,8 @@
       var ov = overlays(name, layer, d);
       if (ov) stage.appendChild(layerEl(DEPTH[layer] || 0, ov));   // its own layer, so animating it never repaints the picture
     });
-    el.insertBefore(stage, el.firstChild);
-
-    var fit = function () { focus(el, d); };
+    el.insertBefore(stage, still.nextSibling);
     fit();
-    window.addEventListener('resize', fit);
 
     // show the scene, and start its motion, only once every layer is decoded
     var imgs = [].slice.call(stage.querySelectorAll('img'));
@@ -96,6 +115,7 @@
       requestAnimationFrame(function () {
         el.classList.add('is-ready');
         if (!reduceMotion) parallax(el);
+        setTimeout(function () { still.parentNode && still.parentNode.removeChild(still); }, 1000);   // hidden by now
       });
     });
 
@@ -105,23 +125,23 @@
         el.classList.toggle('is-paused', !entries[0].isIntersecting);
       }).observe(el);
     }
-    if (el.hasAttribute('data-sound') && window.HDAmbience) window.HDAmbience.button(el, el.getAttribute('data-sound'));
   }
 
   // Crop the painting to the box like `object-fit: cover`, centred on data-focus (an x position in
   // painting units), and line the overlays up with the same crop. On wider screens, where the
   // hero panel sits over the left of the picture, data-tuck (also an x position) is placed just
-  // behind the panel's right edge instead, so the rest of the scene stands clear of it.
+  // behind the panel's right edge instead, and data-shift then moves the picture right by that
+  // share of its visible width.
   function focus(el, d) {
     var art = d.art || [0, 0, 1200, 800], ax = art[0], ay = art[1], aw = art[2], ah = art[3];
-    var box = el.querySelector('.scene-layer'), bw = box.clientWidth, bh = Math.max(1, box.clientHeight);
+    var box = el.querySelector('.scene-still, .scene-layer'), bw = box.clientWidth, bh = Math.max(1, box.clientHeight);
     var r = bw / bh, vx, vy, vw, vh;
     if (r < aw / ah) {
       vh = ah; vw = ah * r; vy = ay;
       var tuck = el.getAttribute('data-tuck'), panel = tuck && bw >= 760 && el.parentNode.querySelector('.hero-panel');
       if (panel) {
         var pr = panel.getBoundingClientRect(), br = box.getBoundingClientRect();
-        vx = +tuck + 30 - (pr.right - br.left) / br.width * vw;
+        vx = +tuck + 30 - (pr.right - br.left) / br.width * vw - (+el.getAttribute('data-shift') || 0) * vw;
       } else {
         vx = +(el.getAttribute('data-focus') || ax + aw / 2) - vw / 2;
       }

@@ -29,17 +29,17 @@ for name, gen in SCENES.items():
         if lname in DROP: continue
         p = os.path.join(TMP, f'{name}-{lname}.svg')
         open(p, 'w').write(head + '</defs>\n' + content + '</svg>\n')
-        jobs.append((p, os.path.join(out_dir, f'{lname}.webp'), lname == 'sky', name, lname))
+        jobs.append((p, os.path.join(out_dir, f'{lname}.webp'), lname == 'sky', name, lname, data[name]['art'][2]))
         layers.append(lname)
-    jobs.append((flat, os.path.join(out_dir, 'flat.webp'), True, name, 'flat'))
+    jobs.append((flat, os.path.join(out_dir, 'flat.webp'), True, name, 'flat', data[name]['art'][2]))
     data[name]['layers'] = layers
-    data[name]['art'] = [-300, 0, 2100, 800]       # the painted area, in the units overlay positions use
+    data[name]['flat'] = f'img/scenes/{name}/flat.webp'
 
-js_jobs = json.dumps([[j[0], j[0][:-4] + '.png'] for j in jobs])
+js_jobs = json.dumps([[j[0], j[0][:-4] + '.png', j[5]] for j in jobs])
 subprocess.check_call(['node', os.path.join(HERE, 'layershot.js'), js_jobs], cwd=os.path.dirname(HERE))
 HALF = {'rays', 'mist', 'sky', 'clouds'}     # soft, blurry layers lose nothing at half size
 seen = {}
-for svg, webp, opaque, name, lname in jobs:
+for svg, webp, opaque, name, lname, _ in jobs:
     im = Image.open(svg[:-4] + '.png')
     im = im.convert('RGB') if opaque else im.convert('RGBA')
     if lname in HALF: im = im.resize((im.width // 2, im.height // 2), Image.LANCZOS)
