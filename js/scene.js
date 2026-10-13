@@ -3,6 +3,8 @@
    Each depth layer is its own composited element, so the browser only moves finished
    pictures around instead of repainting them. The finished still picture shows first, so
    the scene appears at once; the layers load behind it and take over when they are ready.
+   The text card over the scene gets its frosted glass from a blurred copy of the picture,
+   lined up with the scene behind it, rather than from a live backdrop blur.
    Layer files and overlay positions come from js/scene-data.js, in the painting's own units. */
 (function () {
   'use strict';
@@ -18,7 +20,8 @@
   var FLAG = 'c18 4 30 12 40 22c-14 0-28-4-40-10z';
   var BIRD = 'M0 0q5 -5 10 0q5 -5 10 0';
   // small flocks crossing at different heights and speeds: [height, birds, size, seconds, delay]
-  var FLOCKS = [[250, 4, 1, 60, 0], [185, 3, 0.75, 78, -28], [300, 2, 0.85, 52, -38], [150, 1, 0.6, 94, -70], [215, 3, 0.65, 85, -12]];
+  // (the delays put a couple of flocks over the open sky as the page opens)
+  var FLOCKS = [[250, 4, 1.2, 60, -34], [185, 3, 0.9, 78, -53], [300, 2, 1, 52, -25], [150, 1, 0.75, 94, -37], [215, 3, 0.8, 85, -18]];
   var V = [[0, 0], [24, 13], [46, -5], [-30, 18]];
 
   function rand(seed) {
@@ -84,9 +87,18 @@
     still.className = 'scene-still';
     still.innerHTML = '<img class="scene-img" src="' + d.flat + '" alt="" fetchpriority="high" draggable="false">';
     el.insertBefore(still, el.firstChild);
+    var panel = el.parentNode.querySelector('.hero-panel, .story-panel');
+    if (panel && d.frost) {
+      var frost = document.createElement('div');
+      frost.className = 'scene-frost';
+      frost.innerHTML = '<img src="' + d.frost + '" alt="" draggable="false">';
+      panel.insertBefore(frost, panel.firstChild);
+      panel.classList.add('has-frost');
+    }
     var fit = function () { focus(el, d); };
     fit();
     window.addEventListener('resize', fit);
+    if (document.fonts) document.fonts.ready.then(fit);   // the card's size, and so the framing, can change as fonts load
     var im = still.firstChild;
     if (im.complete) layers(el, d, name, still, fit);
     else im.onload = im.onerror = function () { layers(el, d, name, still, fit); };
@@ -155,6 +167,12 @@
     [].forEach.call(el.querySelectorAll('.scene-ov'), function (s) {
       s.setAttribute('viewBox', [vx, vy, vw, vh].map(function (v) { return v.toFixed(1); }).join(' '));
     });
+    var fi = el.parentNode.querySelector('.scene-frost img');
+    if (fi) {
+      var fb = box.getBoundingClientRect(), fp = fi.parentNode.getBoundingClientRect();
+      fi.style.cssText = 'left:' + (fb.left - fp.left).toFixed(1) + 'px;top:' + (fb.top - fp.top).toFixed(1) + 'px;width:' +
+        fb.width.toFixed(1) + 'px;height:' + fb.height.toFixed(1) + 'px;object-position:' + pos;
+    }
   }
 
   function parallax(el) {

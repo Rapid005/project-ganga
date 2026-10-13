@@ -5,9 +5,14 @@ LAYERED = len(sys.argv) > 2 and sys.argv[2] == 'layered'
 OVER = {}
 
 W, H = 1200, 800            # the original painting; overlay positions use these units
-X0, AW = -300, 2100         # the panorama extends it: 300 units to the left, 600 to the right
+# The panorama extends it 600 units to the right and, by default, 300 to the left; a scene can
+# set XL before running this file to reach further left.
+X0 = globals().get('XL', -300)
+AW = 1800 - X0
+WIDE = X0 < -300
 R = random.Random(11)
 R2 = random.Random(29)      # the extensions draw from their own generator, so the centre stays as it was
+R3 = random.Random(31)      # ... and the wider left reach from another
 out = []
 def add(s): out.append(s)
 def f(v): return f'{v:.1f}'.rstrip('0').rstrip('.')
@@ -36,10 +41,14 @@ def md(a, b, rough, depth, rng=R):
 def poly(pts): return 'M' + 'L'.join(f'{f(x)} {f(y)}' for x, y in pts) + 'Z'
 def line(pts): return 'M' + 'L'.join(f'{f(x)} {f(y)}' for x, y in pts)
 
-def skyline(keys, rough, depth, left=(), right=()):
+def skyline(keys, rough, depth, left=(), right=(), wide=()):
     """Ridgeline through keys, extended by `left` (ending at keys[0]) and `right` (starting after keys[-1]).
-    Returns the points and the index range [lo, hi] of the original part."""
+    `wide` reaches further left again (ending at left[0]), drawn from R3 so nothing else changes.
+    Returns the points, the index range [lo, hi] of the original part and where `left` starts."""
     pts = []
+    wide = list(wide) + [left[0]] if wide else []
+    for a, b in zip(wide, wide[1:]): pts += md(a, b, rough, depth, R3)
+    w0 = len(pts)
     left = list(left) + [keys[0]] if left else []
     for a, b in zip(left, left[1:]): pts += md(a, b, rough, depth, R2)
     lo = len(pts)
@@ -47,7 +56,7 @@ def skyline(keys, rough, depth, left=(), right=()):
     hi = len(pts)
     right = [keys[-1]] + list(right) if right else [keys[-1]]
     for a, b in zip(right, right[1:]): pts += md(a, b, rough, depth, R2)
-    return pts + [right[-1]], lo, hi
+    return pts + [right[-1]], lo, hi, w0
 
 # ------------------------------------------------------------------ defs
 add(f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="{X0} 0 {AW} {H}" width="{AW}" height="{H}" role="img" aria-label="{LABEL}">
@@ -117,7 +126,7 @@ b('<circle cx="1000" cy="345" r="60" fill="#fff6d6" opacity=".6" filter="url(#so
 # high thin clouds lit by the sunrise
 b('<!--LAYER clouds-->')
 for cx, cy, rx, ry, op in [(260,150,230,9,.5),(520,118,170,6,.4),(860,190,260,10,.55),(1080,140,140,6,.4),(700,240,200,7,.45),
-                           (-130,175,190,8,.45),(1370,165,210,8,.5),(1290,235,150,6,.4),(1620,175,200,8,.45),(1740,232,150,6,.4)]:
+                           (-130,175,190,8,.45),(1370,165,210,8,.5),(1290,235,150,6,.4),(1620,175,200,8,.45),(1740,232,150,6,.4)] + ([(-520,160,220,8,.45),(-380,232,160,6,.4)] if WIDE else []):
     b(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="#ffffff" opacity="{min(1,op+.35)}" filter="url(#cloud)"/>')
     b(f'<ellipse cx="{cx+20}" cy="{cy-2}" rx="{rx*.6:.0f}" ry="{ry*.45:.1f}" fill="#fff1cc" opacity="{min(1,op+.3)}" filter="url(#cloud)"/>')
 
@@ -136,7 +145,7 @@ def fall(p, base, lean, rough=.06, rng=R):
     return md(p, end, rough, 5, rng) + [end]
 
 def facet_layer(skl, base, fill, lit_fill, shade_col, cid, lean=.42, minw=14, flutes=0, flute_col='#4b4660', tex='tex', tex_op=.4):
-    sk, lo, hi = skl
+    sk, lo, hi, w0 = skl
     shape = sk + [(sk[-1][0], base), (sk[0][0], base)]
     b(f'<clipPath id="{cid}"><path d="{poly(shape)}"/></clipPath>')
     b(f'<path d="{poly(shape)}" fill="{fill}"/>')
@@ -146,7 +155,7 @@ def facet_layer(skl, base, fill, lit_fill, shade_col, cid, lean=.42, minw=14, fl
         if not nxt: continue
         si = nxt[0]
         if sk[si][0] - sk[pi][0] < minw: continue
-        rng = R if lo < pi and si < hi else R2      # faces in the original part keep their old randomness
+        rng = R if lo < pi and si < hi else R2 if pi >= w0 else R3   # faces in the original part keep their old randomness
         crest = fall(sk[pi], base, lean, rng=rng)
         gully = fall(sk[si], base, lean * 1.1, rng=rng)
         # sunlit face: crest (bottom to top), along the skyline, then down the gully
@@ -161,11 +170,12 @@ def facet_layer(skl, base, fill, lit_fill, shade_col, cid, lean=.42, minw=14, fl
                 w = rng.uniform(1.5, 6)
                 b(f'<path d="{line(g)}" stroke="{shade_col}" stroke-width="{f(w)}" stroke-opacity="{f(rng.uniform(.25,.55))}" fill="none" stroke-linecap="round" clip-path="url(#{cid})"/>')
     # snow flutes: fine parallel lines following the fall line
-    n_ext = int(flutes * (len(sk) - (hi - lo + 1)) / (hi - lo + 1))
-    ext = [i for i in range(len(sk)) if i < lo or i > hi]
-    for j in range(flutes + n_ext):
-        rng = R if j < flutes else R2
-        k = lo + rng.randrange(hi - lo + 1) if j < flutes else rng.choice(ext)
+    n_ext = int(flutes * (len(sk) - w0 - (hi - lo + 1)) / (hi - lo + 1))
+    n_wide = int(flutes * w0 / (hi - lo + 1))
+    ext = [i for i in range(w0, len(sk)) if i < lo or i > hi]
+    for j in range(flutes + n_ext + n_wide):
+        rng = R if j < flutes else R2 if j < flutes + n_ext else R3
+        k = lo + rng.randrange(hi - lo + 1) if j < flutes else rng.choice(ext) if rng is R2 else rng.randrange(w0)
         p = sk[k]
         L = rng.uniform(25, 110)
         g = fall((p[0] + rng.uniform(-6, 6), p[1] + rng.uniform(4, 30)), p[1] + L, lean * rng.uniform(.8, 1.2), .05, rng)
@@ -177,28 +187,29 @@ b('<!--LAYER far-->')
 far_keys = [(-10,430),(70,372),(150,318),(205,300),(250,262),(300,282),(338,236),(372,262),(420,214),(470,280),(540,330),
             (610,300),(700,170),(760,250),(820,300),(900,350),(980,382),(1060,360),(1130,392),(1210,410)]
 sky_far = skyline(far_keys, .12, 5, left=[(-310,470),(-250,420),(-190,330),(-140,362),(-80,332)],
+                  wide=[(X0 - 10,430),(-710,450),(-650,392),(-590,322),(-540,356),(-470,300),(-410,352),(-360,418)] if WIDE else (),
                   right=[(1290,330),(1350,296),(1420,350),(1510,382),(1580,342),(1650,302),(1720,354),(1810,392)])
 facet_layer(sky_far, 640, 'url(#farShade)', 'url(#farLit)', '#a9bcd6', 'cFar', flutes=160, flute_col='#8fa6c4', tex_op=.22)
 # alpenglow rim on the ridgelines
 b(f'<path d="{line(sky_far[0])}" stroke="#fff6ea" stroke-width="1.6" fill="none" opacity=".6" filter="url(#soft)"/>')
 # haze over the base of the far range
-b('<rect x="-310" y="400" width="2120" height="240" fill="#fff6e2" opacity=".45" filter="url(#soft14)"/>')
+b(f'<rect x="{X0 - 10}" y="400" width="{AW + 20}" height="240" fill="#fff6e2" opacity=".45" filter="url(#soft14)"/>')
 
-def ridge_layer(keys, rough, fill, lit_fill, tex_op, cid, shade='#4a7a66', left=(), right=()):
-    sk = skyline(keys, rough, 5, left, right)
+def ridge_layer(keys, rough, fill, lit_fill, tex_op, cid, shade='#4a7a66', left=(), right=(), wide=()):
+    sk = skyline(keys, rough, 5, left, right, wide if WIDE else ())
     facet_layer(sk, 800, fill, lit_fill, shade, cid, lean=.6, minw=10, tex='texFine', tex_op=tex_op)
     return sk[0]
 
 b('<!--LAYER mid-->')
 mid1 = ridge_layer([(-10,470),(90,430),(180,452),(260,404),(350,450),(430,470),(520,452),(600,480),(690,500),(780,470),
                     (860,430),(930,410),(1010,446),(1100,420),(1210,450)], .14, 'url(#mid1)', 'url(#mid1Lit)', .45, 'cM1',
-                   left=[(-310,440),(-220,408),(-120,450)], right=[(1300,410),(1400,442),(1510,420),(1620,436),(1720,410),(1810,440)])
-b('<rect x="-310" y="470" width="2120" height="120" fill="#ffffff" opacity=".42" filter="url(#fog)"/>')
+                   left=[(-310,440),(-220,408),(-120,450)], wide=[(X0 - 10,420),(-710,430),(-610,402),(-500,446),(-400,418)], right=[(1300,410),(1400,442),(1510,420),(1620,436),(1720,410),(1810,440)])
+b(f'<rect x="{X0 - 10}" y="470" width="{AW + 20}" height="120" fill="#ffffff" opacity=".42" filter="url(#fog)"/>')
 
 # forests on the second ridge
 mid2 = ridge_layer([(-10,520),(70,500),(160,532),(250,512),(330,560),(420,575),(500,590),(560,600),(620,598),(700,588),
                     (790,560),(880,520),(960,500),(1050,528),(1130,505),(1210,520)], .1, 'url(#mid2)', '#93c46e', .25, 'cM2',
-                   left=[(-310,500),(-200,522),(-100,494)], right=[(1310,500),(1410,526),(1510,505),(1620,520),(1720,498),(1810,515)])
+                   left=[(-310,500),(-200,522),(-100,494)], wide=[(X0 - 10,512),(-710,505),(-600,520),(-500,492),(-400,515)], right=[(1310,500),(1410,526),(1510,505),(1620,520),(1720,498),(1810,515)])
 
 def tree(x, y, h, col, lit=None, rng=R):
     """Deodar: a narrow spire with drooping tiers."""
@@ -239,18 +250,22 @@ for _ in range(360):                               # forests on the panorama's e
     x = R2.uniform(-310, -10) if R2.random() < .34 else R2.uniform(1210, 1810)
     y = ridge_y(mid2, x) + abs(R2.uniform(-4, 120))
     trees.append((y, x, 10 + (y - 480) * .09 + R2.uniform(-3, 4), R2))
+for _ in range(240 if WIDE else 0):
+    x = R3.uniform(X0 - 10, -310)
+    y = ridge_y(mid2, x) + abs(R3.uniform(-4, 120))
+    trees.append((y, x, 10 + (y - 480) * .09 + R3.uniform(-3, 4), R3))
 for y, x, h, rng in sorted(trees, key=lambda t: t[:3]):
     tone = min(1, max(0, (y - 500) / 160))
     r_, g_, bb = int(78 - 46*tone), int(128 - 46*tone), int(96 - 50*tone)
     b(tree(x, y, h, f'#{r_:02x}{g_:02x}{bb:02x}', lit='#f0dc8a' if x > 600 else None, rng=rng))
-b('<rect x="-310" y="560" width="2120" height="90" fill="#fffaf0" opacity=".4" filter="url(#fog)"/>')
+b(f'<rect x="{X0 - 10}" y="560" width="{AW + 20}" height="90" fill="#fffaf0" opacity=".4" filter="url(#fog)"/>')
 
-def boulder(x, y, r, grad='rock', foam=True):
+def boulder(x, y, r, grad='rock', foam=True, rng=R):
     pts = []
     n = 14
     for k in range(n):
         a = math.pi * 2 * k / n
-        rr = r * R.uniform(.82, 1.12)
+        rr = r * rng.uniform(.82, 1.12)
         pts.append((x + math.cos(a) * rr * 1.25, y + math.sin(a) * rr * (.75 if a < math.pi else .45)))
     s = ''
     if foam:
@@ -281,6 +296,7 @@ def finish(sparkle_top):
         x, y = R.uniform(0, 1200), R.uniform(sparkle_top, 800)
         if inside_poly(x, y, river): sp.append((round(x), round(y)))
     OVER['sparkles'] = sp
+    OVER['art'] = [X0, 0, AW, H]
     if len(sys.argv) > 3: json.dump(OVER, open(sys.argv[3], 'w'))
     svg = '\n'.join(out) + '</defs>\n' + '\n'.join(body) + '\n</svg>\n'
     open(sys.argv[1], 'w').write(svg)

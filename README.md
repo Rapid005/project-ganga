@@ -45,6 +45,8 @@ The sunrise at Gangotri (home page) and the pilgrim at the ghat (Our story) are 
 - clouds and mist drift, birds fly across, the water sparkles;
 - diyas flicker, flags flutter and ripples spread from the kalash.
 
+The finished still picture (`flat.webp`) shows first, so the scene appears straight away; the layers load behind it and take over once they are ready. The frosted glass on the text cards is a blurred copy of the picture (`frost.webp`), so the browser never has to blur the moving scene. On the home page, `data-tuck` and `data-shift` on the scene set where the picture sits beside the text card on laptops.
+
 Each scene also has an optional sound button, played by `js/ambience.js`:
 
 - **Hear the dawn** (home): a mountain breeze, the river far below, birdsong with a koel's call, and a temple bell down the valley.

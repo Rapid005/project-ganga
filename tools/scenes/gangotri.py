@@ -2,6 +2,7 @@
 
 Usage: python3 gangotri.py OUT.svg [layered OUT.json]"""
 import os
+XL = -760                   # reach further left than Our story, so the picture can sit right of the card
 LABEL = "Sunrise at Gangotri: snow peaks glowing above deodar forests, wildflower meadows and the clear Bhagirathi flowing past the white Gangotri temple"
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'landscape.py')).read())
 
@@ -21,7 +22,7 @@ iL = next(i for i, p in enumerate(river_s) if p == L_EDGE[-1])
 iR0 = next(i for i, p in enumerate(river_s) if p == R_EDGE[0])
 iR1 = next(i for i, p in enumerate(river_s) if p == R_EDGE[-1])
 left_edge = river_s[iL:] + [river_s[0]]                  # from the bottom-left corner back up to the gorge
-bank_l = md((-310, 652), (520, 598), .05, 5) + [(520, 598)] + list(reversed(left_edge)) + [(-310, 800)]
+bank_l = md((X0 - 10, 648), (-310, 652), .05, 5, R3) + md((-310, 652), (520, 598), .05, 5) + [(520, 598)] + list(reversed(left_edge)) + [(X0 - 10, 800)]
 bank_r = md((650, 598), (1810, 636), .05, 5) + [(1810, 636), (1810, 800)] + list(reversed(river_s[iR0:iR1 + 1]))
 b(f'<path d="{poly(bank_l)}" fill="url(#bank)"/>')
 b(f'<path d="{poly(bank_r)}" fill="url(#bank)"/>')
@@ -83,12 +84,17 @@ for dx in (-70, -54, -40):
     b(f'<circle cx="{tx+dx}" cy="{ty+18}" r="5" fill="#ffd27a" opacity=".55" filter="url(#soft)"/><circle cx="{tx+dx}" cy="{ty+18}" r="1.4" fill="#fff3c4"/>')
 
 # ------------------------------------------------------------------ foreground frame
-fg_l = md((-310, 500), (-120, 562), .1, 4) + md((-120, 562), (60, 680), .12, 4) + md((60, 680), (160, 800), .1, 4) + [(160, 800), (-310, 800)]
+fg_l = md((X0 - 10, 520), (-310, 500), .1, 4, R3) + md((-310, 500), (-120, 562), .1, 4) + md((-120, 562), (60, 680), .12, 4) + md((60, 680), (160, 800), .1, 4) + [(160, 800), (X0 - 10, 800)]
 b(f'<path d="{poly(fg_l)}" fill="url(#meadow)"/>')
 fg_r = md((1810, 560), (1510, 578), .1, 4) + md((1510, 578), (1160, 690), .1, 4) + md((1160, 690), (1060, 800), .1, 4) + [(1060, 800), (1810, 800)]
 b(f'<path d="{poly(fg_r)}" fill="url(#meadow)"/>')
 b('<clipPath id="cFgAll">' + f'<path d="{poly(fg_l)}"/><path d="{poly(fg_r)}"/>' + '</clipPath>')
 b(f'<rect x="{X0}" width="{AW}" height="{H}" filter="url(#texFine)" clip-path="url(#cFgAll)" style="mix-blend-mode:multiply" opacity=".45"/>')
+# the far-left reach: its own boulder and deodars, from R3 so the rest stays as it was
+b(boulder(-520, 790, 42, 'rockDark', foam=False, rng=R3))
+for x, y, h in [(-730, 590, 300), (-660, 610, 330), (-575, 574, 290), (-490, 636, 360), (-400, 596, 300), (-330, 650, 250)]:
+    b(f'<path d="M{x} {y}v-{h*.25}" stroke="#5a3e2b" stroke-width="{h*.03:.1f}"/>')
+    b(tree(x, y, h, '#24543a', lit='#e6d27e', rng=R3))
 b(boulder(70, 772, 40, 'rockDark', foam=False) + boulder(1110, 778, 36, 'rockDark', foam=False) + boulder(-160, 786, 46, 'rockDark', foam=False) + boulder(1600, 784, 44, 'rockDark', foam=False))
 for x, y, h in [(-250, 600, 360), (-170, 566, 300), (-95, 640, 330), (-25, 696, 250), (40, 650, 190),
                 (1150, 706, 230), (1215, 668, 300), (1300, 644, 360), (1390, 626, 320), (1465, 690, 380),
@@ -110,6 +116,12 @@ for cid, n in (('cBank', 360), ('cFgAll', 320)):
         g.append(f'<circle cx="{f(x)}" cy="{f(y)}" r="{f(r)}" fill="{c}"/><circle cx="{f(x)}" cy="{f(y)}" r="{f(r*.35)}" fill="#fff4b0"/>')
     for _ in range(n):
         y = R.uniform(600, 800); t = (y - 600) / 200; x = R.uniform(-310, 1810); h = 3 + 14 * t
+        g.append(f'<path d="M{f(x)} {f(y)}l{f(-h*.3)} {f(-h)}M{f(x)} {f(y)}l{f(h*.05)} {f(-h*1.1)}M{f(x)} {f(y)}l{f(h*.35)} {f(-h*.9)}" stroke="#6faa45" stroke-width="{f(.5+t)}" stroke-linecap="round"/>')
+    for _ in range(n * 450 // 2120):             # the same density across the far-left reach
+        y = R3.uniform(600, 800); t = (y - 600) / 200; x = R3.uniform(X0 - 10, -310); r = .8 + 3.2 * t * R3.uniform(.6, 1.2)
+        g.append(f'<path d="M{f(x)} {f(y)}v{f(r*2.2)}" stroke="#4f8a3a" stroke-width="{f(.4+r*.2)}"/>')
+        g.append(f'<circle cx="{f(x)}" cy="{f(y)}" r="{f(r)}" fill="{R3.choice(fl_cols)}"/><circle cx="{f(x)}" cy="{f(y)}" r="{f(r*.35)}" fill="#fff4b0"/>')
+        y = R3.uniform(600, 800); t = (y - 600) / 200; x = R3.uniform(X0 - 10, -310); h = 3 + 14 * t
         g.append(f'<path d="M{f(x)} {f(y)}l{f(-h*.3)} {f(-h)}M{f(x)} {f(y)}l{f(h*.05)} {f(-h*1.1)}M{f(x)} {f(y)}l{f(h*.35)} {f(-h*.9)}" stroke="#6faa45" stroke-width="{f(.5+t)}" stroke-linecap="round"/>')
     b(''.join(g) + '</g>')
 

@@ -4,7 +4,7 @@ Usage: python3 tools/scenes/build_scenes.py SITE_ROOT TMP_DIR
 Needs Pillow, Node and Playwright with Chromium. GitHub Actions runs this
 (.github/workflows/scenes.yml) whenever a file in tools/scenes changes."""
 import json, os, re, subprocess, sys
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = sys.argv[1]
@@ -34,6 +34,7 @@ for name, gen in SCENES.items():
     jobs.append((flat, os.path.join(out_dir, 'flat.webp'), True, name, 'flat', data[name]['art'][2]))
     data[name]['layers'] = layers
     data[name]['flat'] = f'img/scenes/{name}/flat.webp'
+    data[name]['frost'] = f'img/scenes/{name}/frost.webp'
 
 js_jobs = json.dumps([[j[0], j[0][:-4] + '.png', j[5]] for j in jobs])
 subprocess.check_call(['node', os.path.join(HERE, 'layershot.js'), js_jobs], cwd=os.path.dirname(HERE))
@@ -44,6 +45,10 @@ for svg, webp, opaque, name, lname, _ in jobs:
     im = im.convert('RGB') if opaque else im.convert('RGBA')
     if lname in HALF: im = im.resize((im.width // 2, im.height // 2), Image.LANCZOS)
     im.save(webp, 'WEBP', quality=80, method=6)
+    if lname == 'flat':
+        # a blurred copy for the frosted-glass cards, so the browser never blurs the moving scene
+        fr = ImageEnhance.Color(im.filter(ImageFilter.GaussianBlur(14))).enhance(1.15)
+        fr.resize((im.width // 4, im.height // 4), Image.LANCZOS).save(os.path.join(os.path.dirname(webp), 'frost.webp'), 'WEBP', quality=70)
     blob = open(webp, 'rb').read()
     rel = os.path.relpath(webp, SITE)
     if lname != 'flat':
